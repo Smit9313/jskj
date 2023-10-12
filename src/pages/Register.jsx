@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, Button, Box, Typography,Input } from "@mui/material";
+import { TextField, Button, Box, Typography,Input, Container } from "@mui/material";
 import {useForm} from 'react-hook-form';
 
 function Register() {
@@ -14,13 +14,15 @@ function Register() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      height="100vh"
+    <Container maxWidth='xs' sx={{boxShadow: 2, marginTop: 10}}>
+    <Box sx={{display:"flex",
+    flexDirection:"column",
+    paddingY: 5,
+    alignItems:"center",
+    justifyContent:"center",
+    }}
+    component='form' 
+      onSubmit={handleSubmit(onSubmit)}
     >
    <Typography variant="h4" gutterBottom>
         Registration
@@ -73,7 +75,7 @@ function Register() {
           Register
         </Button>
    </Box>
-   </form>
+   </Container>
   );
 }
 

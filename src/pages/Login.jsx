@@ -12,18 +12,21 @@ export default function Login() {
      console.log(data)
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      height="100vh"
+    <Container maxWidth='xs' sx={{boxShadow: 2, marginTop: 10}}>
+    <Box sx={{display:"flex",
+    flexDirection:"column",
+    paddingY: 5,
+    alignItems:"center",
+    justifyContent:"center",
+    }}
+    component='form' 
+      onSubmit={handleSubmit(onSubmit)}
     >
+    
    <Typography variant="h4" gutterBottom>
         Login
       </Typography>
-      <TextField id="email" label="Email" name="email" variant="outlined"
+      <TextField id="email" label="Email" name="email" variant="outlined" 
         margin="dense" {...register('email', {
               required: {
                 value:true,
@@ -46,10 +49,11 @@ export default function Login() {
         })} />
       {errors.password && <p>{errors.password?.message}</p> }
        
-        <Button type="submit" variant="contained" color="primary" size="large" style={{ marginTop: '20px' }}>
+        <Button type="submit" variant="contained" color="primary" size='large' style={{ marginTop: '20px' }}>
           Login
         </Button>
    </Box>
-   </form>
+   </Container>
+   
     )
 }
