@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { TextField, Button, Box, Typography ,Container} from "@mui/material";
 import {useForm} from 'react-hook-form';
 
 export default function Login() {
@@ -36,7 +36,7 @@ export default function Login() {
               }
             })}
         />
-        {/* <p>{errors.email?.message}</p> */}
+        {errors.email && <p>{errors.email?.message}</p>}
       <TextField id="password" label="Password" name="password" variant="outlined"
         margin="dense" {...register('password',{
           required:{
@@ -44,7 +44,7 @@ export default function Login() {
             message:'Password is register'
           }
         })} />
-        {/* <p>{errors.password?.message}</p> */}
+      {errors.password && <p>{errors.password?.message}</p> }
        
         <Button type="submit" variant="contained" color="primary" size="large" style={{ marginTop: '20px' }}>
           Login
