@@ -1,11 +1,24 @@
 import React from "react";
-import { TextField, Button, Box, Typography,Input, Container } from "@mui/material";
+import { TextField, Button, Box, Typography,Input, Container,InputLabel } from "@mui/material";
 import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
 
 function Register() {
- 
-  const form = useForm()
-  const { register, handleSubmit , formState} = form
+
+  const validation = Yup.object().shape({
+    firstname: Yup.string().required('Firstname is required'),
+    lastname:Yup.string().required('Lastname is required'),
+    email: Yup.string().email("Email is invalid").required("Email is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(5, "Password must be at least 5 characters"),
+  });
+
+
+  const { register, handleSubmit , formState} = useForm({
+    resolver: yupResolver(validation)
+  })
 
   const {errors} = formState
 
@@ -28,45 +41,21 @@ function Register() {
         Registration
       </Typography>
       <TextField id="firstname" label="First Name" name="firstname" variant="outlined"
-        margin="dense" {...register('firstname',{
-          required:{
-            value:true,
-            message:'User is register'
-          }
-        })}/>
-      { errors.firstname && <p>{errors.firstname?.message}</p>}
+        margin="dense" {...register('firstname')}/>
+        {errors.firstname && <InputLabel  sx={{color: 'red'}}>{errors.firstname?.message}</InputLabel>}
+    
       <TextField id="lastname" label="Last Name" name="lastname" variant="outlined"
         margin="dense" 
-        {...register('lastname',{
-          required:{
-            value:true,
-            message:'LastName is required'
-          }
-        })}
+        {...register('lastname')}
         />
-        {errors.lastname && <p>{errors.lastname?.message}</p>}
+       {errors.lastname && <InputLabel  sx={{color: 'red'}}>{errors.lastname?.message}</InputLabel>}
       <TextField id="email" label="Email" name="email" variant="outlined"
-        margin="dense" {...register('email', {
-              required: {
-                value:true,
-                required:"Email is required"
-                },
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message : "Invalid email address format"
-                
-              }
-            })}
+        margin="dense" {...register('email')}
         />
-        {errors.email && <p>{errors.email?.message}</p>}
+        {errors.email && <InputLabel  sx={{color: 'red'}}>{errors.email?.message}</InputLabel>}
       <TextField id="password" label="Password" name="password" variant="outlined"
-        margin="dense" {...register('password',{
-          required:{
-            value:true,
-            message:'Password is register'
-          }
-        })} />
-        {errors.password && <p>{errors.password?.message}</p>}
+        margin="dense" {...register('password')} />
+       {errors.password && <InputLabel  sx={{color: 'red'}}>{errors.password?.message}</InputLabel>}
         <Input type="file" id="profilepicture" label="profile Picture" name="profilepicture" variant="outlined" {...register("profilepicture")}/>
         <Button component='span' variant='outlined' color='primary' size="small" >Upload</Button>
       {/* <TextField id="role" label="Role" name="role" variant="outlined"

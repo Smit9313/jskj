@@ -1,59 +1,84 @@
-import React from 'react'
-import { TextField, Button, Box, Typography ,Container} from "@mui/material";
-import {useForm} from 'react-hook-form';
+import React from "react";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+  InputLabel,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 export default function Login() {
-  const form = useForm()
-  const { register, handleSubmit , formState} = form
+  const validation = Yup.object().shape({
+    email: Yup.string().email("Email is invalid").required("Email is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(5, "Password must be at least 5 characters"),
+  });
 
-  const {errors} = formState
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(validation),
+  });
 
-  const onSubmit=(data)=>{
-     console.log(data)
-  }
+  const { errors } = formState;
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
-    <Container maxWidth='xs' sx={{boxShadow: 2, marginTop: 10}}>
-    <Box sx={{display:"flex",
-    flexDirection:"column",
-    paddingY: 5,
-    alignItems:"center",
-    justifyContent:"center",
-    }}
-    component='form' 
-      onSubmit={handleSubmit(onSubmit)}
-    >
-    
-   <Typography variant="h4" gutterBottom>
-        Login
-      </Typography>
-      <TextField id="email" label="Email" name="email" variant="outlined" 
-        margin="dense" {...register('email', {
-              required: {
-                value:true,
-                required:"Email is required"
-                },
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message : "Invalid email address format"
-                
-              }
-            })}
+    <Container maxWidth="xs" sx={{ boxShadow: 2, marginTop: 10 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          paddingY: 5,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Typography variant="h4" gutterBottom>
+          Login
+        </Typography>
+        <TextField
+          id="email"
+          label="Email"
+          name="email"
+          variant="outlined"
+          margin="dense"
+          {...register("email")}
         />
-        {errors.email && <p>{errors.email?.message}</p>}
-      <TextField id="password" label="Password" name="password" variant="outlined"
-        margin="dense" {...register('password',{
-          required:{
-            value:true,
-            message:'Password is register'
-          }
-        })} />
-      {errors.password && <p>{errors.password?.message}</p> }
-       
-        <Button type="submit" variant="contained" color="primary" size='large' style={{ marginTop: '20px' }}>
+        {errors.email && (
+          <InputLabel sx={{ color: "red" }}>{errors.email?.message}</InputLabel>
+        )}
+        <TextField
+          id="password"
+          label="Password"
+          name="password"
+          variant="outlined"
+          margin="dense"
+          {...register("password")}
+        />
+        {errors.password && (
+          <InputLabel sx={{ color: "red" }}>
+            {errors.password?.message}
+          </InputLabel>
+        )}
+
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          size="large"
+          style={{ marginTop: "20px" }}
+        >
           Login
         </Button>
-   </Box>
-   </Container>
-   
-    )
+      </Box>
+    </Container>
+  );
 }
