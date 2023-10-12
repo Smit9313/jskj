@@ -10,7 +10,7 @@ const style = {
 const ProductCard = ({ product }) => {
    const dispatch = useDispatch()
 
-    const handleAdd=(product)=>{
+    const handleAdd=()=>{
        dispatch(add(product))
     }
 
@@ -29,7 +29,7 @@ const ProductCard = ({ product }) => {
              </Typography>
            </CardContent>
            <CardActions>
-             <Button variant="contained" color="primary" size='small' style={style} onClick={()=>handleAdd(product)}>
+             <Button variant="contained" color="primary" size='small' style={style} onClick={handleAdd}>
                Add to cart
             </Button>
            </CardActions>

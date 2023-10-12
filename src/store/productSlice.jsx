@@ -9,9 +9,7 @@ export const STATUSES = Object.freeze({
 const productSlice = createSlice({
     name: 'product',
     initialState: {
-        data: {
-            products:[]
-        },
+        data: [],
         status: STATUSES.IDLE,
     },
     reducers: {

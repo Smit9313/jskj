@@ -30,9 +30,10 @@ function Product() {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {products.products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {products?.products?.length > 0 &&
+          products?.products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
       </Grid>
     </div>
   );

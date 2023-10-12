@@ -50,6 +50,7 @@ export default function Login() {
           name="email"
           variant="outlined"
           margin="dense"
+          fullWidth
           {...register("email")}
         />
         {errors.email && (
@@ -61,6 +62,7 @@ export default function Login() {
           name="password"
           variant="outlined"
           margin="dense"
+          fullWidth
           {...register("password")}
         />
         {errors.password && (
@@ -74,6 +76,7 @@ export default function Login() {
           variant="contained"
           color="primary"
           size="large"
+          fullWidth
           style={{ marginTop: "20px" }}
         >
           Login

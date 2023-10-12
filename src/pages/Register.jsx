@@ -40,27 +40,30 @@ function Register() {
    <Typography variant="h4" gutterBottom>
         Registration
       </Typography>
-      <TextField id="firstname" label="First Name" name="firstname" variant="outlined"
+      <TextField id="firstname" label="First Name" name="firstname" variant="outlined" fullWidth
         margin="dense" {...register('firstname')}/>
         {errors.firstname && <InputLabel  sx={{color: 'red'}}>{errors.firstname?.message}</InputLabel>}
     
-      <TextField id="lastname" label="Last Name" name="lastname" variant="outlined"
+      <TextField id="lastname" label="Last Name" name="lastname" variant="outlined" fullWidth
         margin="dense" 
         {...register('lastname')}
         />
        {errors.lastname && <InputLabel  sx={{color: 'red'}}>{errors.lastname?.message}</InputLabel>}
-      <TextField id="email" label="Email" name="email" variant="outlined"
+      <TextField id="email" label="Email" name="email" variant="outlined" fullWidth
         margin="dense" {...register('email')}
         />
         {errors.email && <InputLabel  sx={{color: 'red'}}>{errors.email?.message}</InputLabel>}
-      <TextField id="password" label="Password" name="password" variant="outlined"
+      <TextField id="password" label="Password" name="password" variant="outlined" fullWidth
         margin="dense" {...register('password')} />
        {errors.password && <InputLabel  sx={{color: 'red'}}>{errors.password?.message}</InputLabel>}
-        <Input type="file" id="profilepicture" label="profile Picture" name="profilepicture" variant="outlined" {...register("profilepicture")}/>
-        <Button component='span' variant='outlined' color='primary' size="small" >Upload</Button>
+       <TextField type='file' id="profilepicture" name="profilepicture" variant="outlined" fullWidth
+        margin="dense" {...register('profilepicture')} />
+       {errors.password && <InputLabel  sx={{color: 'red'}}>{errors.password?.message}</InputLabel>}
+        {/* <Input type="file" id="profilepicture" label="profile Picture" name="profilepicture" variant="outlined" {...register("profilepicture")}/> */}
+        {/* <Button component='span' variant='outlined' color='primary' size="small" >Upload</Button> */}
       {/* <TextField id="role" label="Role" name="role" variant="outlined"
         margin="dense" /> */}
-        <Button type="submit" variant="contained" color="primary" size="large" style={{ marginTop: '20px' }}>
+        <Button type="submit" variant="contained" color="primary" size="large" fullWidth style={{ marginTop: '20px' }}>
           Register
         </Button>
    </Box>
