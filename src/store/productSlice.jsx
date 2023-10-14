@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import { getProduct } from '../services/api/Handler';
 
 export const STATUSES = Object.freeze({
     IDLE: 'idle',
@@ -29,9 +30,10 @@ export function fetchProducts() {
         return async function fetchProductThunk(dispatch, getState) {
             dispatch(setStatus(STATUSES.LOADING));
             try {
-                const res = await fetch('https://dummyjson.com/products');
-                const data = await res.json();
-                dispatch(setProducts(data));
+                // const res = await fetch('https://dummyjson.com/products');
+                const res = await getProduct();
+                // const data = await res.json();
+                dispatch(setProducts(res.data));
                 dispatch(setStatus(STATUSES.IDLE));
             } catch (err) {
                 console.log(err);

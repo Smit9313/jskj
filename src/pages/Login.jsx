@@ -12,15 +12,27 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { userLogin } from "../services/api/Handler";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export default function Login() {
+
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
   const navigate = useNavigate();
 
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{5,}$/;
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const validation = Yup.object().shape({
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
-    .matches(passwordRegex, "Password must contain at least one uppercase letter, one number, one special character, and one alphabetic character")
     .required("Password is required") 
   });
 
@@ -31,11 +43,19 @@ export default function Login() {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    console.log(data);
     userLogin(data).then(res=>{
-      console.log(res)
-      localStorage.setItem('token', res.data.token)
-      navigate("/")
+      if(res.status===200){
+        localStorage.setItem('token', res.data.token)
+        setMessage('succes')
+        setOpen(true)
+        navigate("/")
+      }    
+    }).catch(err=>{
+      console.log(err)
+      console.log(err.response)
+      console.log(err.response.data.message)
+      setMessage(err.response.data.message)
+      setOpen(true)
     })
   };
   return (
@@ -93,6 +113,11 @@ export default function Login() {
         </Button>
         <Typography variant='h9' sx={{marginTop: '10px', marginLeft: 'auto', color:'#1976d2'}} onClick={()=>navigate('/register')}>Create a new account</Typography>
       </Box>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: "100%" ,position:'center'}}>
+          {message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

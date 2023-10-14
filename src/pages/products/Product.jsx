@@ -1,18 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, STATUSES } from "../../store/productSlice";
 import ProductCard from "./ProductCard";
 import { Grid, Typography } from "@mui/material";
 import Filter from "./Filter";
+import TablePagination from '@mui/material/TablePagination';
+
 
 function Product() {
   const dispatch = useDispatch();
   const { data: products, status } = useSelector((state) => state.product);
+  const [page, setPage] = useState(2);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  // const defaultProps = [
-  //   'name',
-  //   'price',
-  // ]
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -41,6 +49,14 @@ function Product() {
           products?.products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
+          <TablePagination
+      component="div"
+      count={products?.products?.length || 0}
+      page={page}
+      onPageChange={handleChangePage}
+      rowsPerPage={rowsPerPage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+    />
       </Grid>
     </div>
   );

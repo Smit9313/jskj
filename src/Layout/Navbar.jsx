@@ -19,7 +19,7 @@ export default function Navbar() {
           <Stack direction="row" spacing={2}>
          
             <Button onClick={()=>navigate('/')}>
-            <img src="public\ZDF_logo!_Logo_2021.svg.png" height={40} width={100} />
+            <img src="/ZDF_logo!_Logo_2021.svg.png" height={40} width={100} />
             </Button>
             <Button color="inherit" component={Link} to="/products">
               Product
