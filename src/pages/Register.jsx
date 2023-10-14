@@ -5,6 +5,8 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import axios from "axios";
 import { userRegister } from "../services/api/Handler";
+import { useNavigate } from "react-router-dom";
+
 
 function Register() {
 
@@ -17,10 +19,11 @@ function Register() {
       .min(5, "Password must be at least 5 characters"),
   });
 
-
   const { register, handleSubmit , formState} = useForm({
     resolver: yupResolver(validation)
   })
+  
+  const navigate = useNavigate();
 
   const {errors} = formState
 
@@ -73,6 +76,7 @@ function Register() {
         <Button type="submit" variant="contained" color="primary" size="large" fullWidth style={{ marginTop: '20px' }}>
           Register
         </Button>
+        <Typography variant='h9' sx={{marginTop: '10px', marginLeft: 'auto', color:'#1976d2'}} onClick={()=>navigate('/login')}>Already registered!! Login?</Typography>
    </Box>
    </Container>
   );

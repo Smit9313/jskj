@@ -15,11 +15,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
+
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{5,}$/;
   const validation = Yup.object().shape({
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
-      .required("Password is required")
-      .min(5, "Password must be at least 5 characters"),
+    .matches(passwordRegex, "Password must contain at least one uppercase letter, one number, one special character, and one alphabetic character")
+    .required("Password is required") 
   });
 
   const { register, handleSubmit, formState } = useForm({
@@ -89,6 +91,7 @@ export default function Login() {
         >
           Login
         </Button>
+        <Typography variant='h9' sx={{marginTop: '10px', marginLeft: 'auto', color:'#1976d2'}} onClick={()=>navigate('/register')}>Create a new account</Typography>
       </Box>
     </Container>
   );

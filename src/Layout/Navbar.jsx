@@ -3,11 +3,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Stack } from "@mui/material";
 import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const navigate = useNavigate()
   const items = useSelector((state) => state.cart);
   const token = localStorage.getItem("token");
 
@@ -16,8 +17,9 @@ export default function Navbar() {
       <AppBar position="static">
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <Stack direction="row" spacing={2}>
-            <Button color="inherit" component={Link} to="/">
-              Home
+         
+            <Button onClick={()=>navigate('/')}>
+            <img src="public\ZDF_logo!_Logo_2021.svg.png" height={40} width={100} />
             </Button>
             <Button color="inherit" component={Link} to="/products">
               Product

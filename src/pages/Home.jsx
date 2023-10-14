@@ -5,7 +5,7 @@ function Home() {
 
   return (
     <Typography variant="h5" sx={{ padding: "20px" }}>
-      Welcome to Amazon
+      Welcome to Logo
     </Typography>
   )
 }

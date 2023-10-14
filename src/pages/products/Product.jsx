@@ -3,10 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, STATUSES } from "../../store/productSlice";
 import ProductCard from "./ProductCard";
 import { Grid, Typography } from "@mui/material";
+import Filter from "./Filter";
 
 function Product() {
   const dispatch = useDispatch();
   const { data: products, status } = useSelector((state) => state.product);
+
+  // const defaultProps = [
+  //   'name',
+  //   'price',
+  // ]
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -25,6 +31,7 @@ function Product() {
       <Typography variant="h5" gutterBottom>
         Products
       </Typography>
+      <Filter/>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}
