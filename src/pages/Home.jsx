@@ -1,8 +1,12 @@
-import React from 'react'
+import { Typography } from '@mui/material'
+import React, { useEffect } from 'react'
 
 function Home() {
+
   return (
-    <div>Welcome To Amazon</div>
+    <Typography variant="h5" sx={{ padding: "20px" }}>
+      Welcome to Amazon
+    </Typography>
   )
 }
 

@@ -3,12 +3,14 @@ import { TextField, Button, Box, Typography,Input, Container,InputLabel } from "
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import axios from "axios";
+import { userRegister } from "../services/api/Handler";
 
 function Register() {
 
   const validation = Yup.object().shape({
-    firstname: Yup.string().required('Firstname is required'),
-    lastname:Yup.string().required('Lastname is required'),
+    firstName: Yup.string().required('Firstname is required'),
+    lastName:Yup.string().required('Lastname is required'),
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
       .required("Password is required")
@@ -22,8 +24,17 @@ function Register() {
 
   const {errors} = formState
 
-  const onSubmit=(data)=>{
-     console.log(data)
+  const onSubmit= async(data)=>{
+    console.log(data)
+    const params = {
+      firstName: data.firstName,
+      lastName:data.lastName,
+      email: data.email,
+      password: data.password
+    }
+    userRegister(params).then(res=>{
+      console.log(res)
+    })
   }
 
   return (
@@ -40,15 +51,15 @@ function Register() {
    <Typography variant="h4" gutterBottom>
         Registration
       </Typography>
-      <TextField id="firstname" label="First Name" name="firstname" variant="outlined" fullWidth
-        margin="dense" {...register('firstname')}/>
-        {errors.firstname && <InputLabel  sx={{color: 'red'}}>{errors.firstname?.message}</InputLabel>}
+      <TextField id="firstName" label="First Name" name="firstName" variant="outlined" fullWidth
+        margin="dense" {...register('firstName')}/>
+        {errors.firstName && <InputLabel sx={{color: 'red'}}>{errors.firstName?.message}</InputLabel>}
     
-      <TextField id="lastname" label="Last Name" name="lastname" variant="outlined" fullWidth
+      <TextField id="lastName" label="Last Name" name="lastName" variant="outlined" fullWidth
         margin="dense" 
-        {...register('lastname')}
+        {...register('lastName')}
         />
-       {errors.lastname && <InputLabel  sx={{color: 'red'}}>{errors.lastname?.message}</InputLabel>}
+       {errors.lastName && <InputLabel sx={{color: 'red'}}>{errors.lastName?.message}</InputLabel>}
       <TextField id="email" label="Email" name="email" variant="outlined" fullWidth
         margin="dense" {...register('email')}
         />
@@ -56,13 +67,9 @@ function Register() {
       <TextField id="password" label="Password" name="password" variant="outlined" fullWidth
         margin="dense" {...register('password')} />
        {errors.password && <InputLabel  sx={{color: 'red'}}>{errors.password?.message}</InputLabel>}
-       <TextField type='file' id="profilepicture" name="profilepicture" variant="outlined" fullWidth
-        margin="dense" {...register('profilepicture')} />
-       {errors.password && <InputLabel  sx={{color: 'red'}}>{errors.password?.message}</InputLabel>}
-        {/* <Input type="file" id="profilepicture" label="profile Picture" name="profilepicture" variant="outlined" {...register("profilepicture")}/> */}
-        {/* <Button component='span' variant='outlined' color='primary' size="small" >Upload</Button> */}
-      {/* <TextField id="role" label="Role" name="role" variant="outlined"
-        margin="dense" /> */}
+       {/* <TextField type='file' id="profilepicture" name="profilepicture" variant="outlined" fullWidth
+        margin="dense" {...register('profilepicture')} /> */}
+       {/* {errors.password && <InputLabel  sx={{color: 'red'}}>{errors.password?.message}</InputLabel>} */}
         <Button type="submit" variant="contained" color="primary" size="large" fullWidth style={{ marginTop: '20px' }}>
           Register
         </Button>

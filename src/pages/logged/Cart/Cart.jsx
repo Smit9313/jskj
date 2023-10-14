@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { add, removeAll, removeOne } from "../../store/cartSlice";
+import { add, removeAll, removeOne } from "../../../store/cartSlice";
 import {
   Table,
   TableBody,
@@ -14,7 +14,7 @@ import {
   Stack,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -126,7 +126,7 @@ function Cart() {
           </>
         )}
         {products.length > 0 && (
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{marginTop:'20%'}}>
             <Table>
               <TableRow>
                 <TableCell>Bill</TableCell>

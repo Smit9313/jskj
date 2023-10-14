@@ -1,6 +1,6 @@
 import { Card, CardContent, CardActions, Button, Typography, Grid, CardMedia } from '@mui/material';
 import "./Products.css"
-import {add} from '../../store/cartSlice'
+import { add } from '../../store/cartSlice'
 import { useDispatch } from 'react-redux';
 
 const style = {

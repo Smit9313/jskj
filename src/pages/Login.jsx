@@ -10,8 +10,11 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { userLogin } from "../services/api/Handler";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const validation = Yup.object().shape({
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
@@ -27,6 +30,11 @@ export default function Login() {
 
   const onSubmit = (data) => {
     console.log(data);
+    userLogin(data).then(res=>{
+      console.log(res)
+      localStorage.setItem('token', res.data.token)
+      navigate("/")
+    })
   };
   return (
     <Container maxWidth="xs" sx={{ boxShadow: 2, marginTop: 10 }}>
