@@ -11,8 +11,15 @@ import {
     Button,
     Stack,
   } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 function order() {
+const navigate = useNavigate()
+
+  const shopNow = () => {
+    navigate('/products')
+  }
+
   return (
     <div style={{ padding: "20px" }}>
     <Typography variant="h5" gutterBottom>
@@ -25,15 +32,14 @@ function order() {
             <TableRow>
               
               <TableCell>Order Date</TableCell>
-              <TableCell>Image</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Total Price</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {products.map((product) => ( */}
-              <TableRow key={product.id}>
-                <TableCell>
+            {/* {products.map((product) => (  key={id}*/}
+              <TableRow >
+                {/* <TableCell>
                   <img
                     // src={product.thumbnail}
                     alt=""
@@ -43,34 +49,12 @@ function order() {
                       objectFit: "cover",
                     }}
                   />
-                </TableCell>
-                <TableCell>{product.title}</TableCell>
-                <TableCell>{product.price}</TableCell>
-                <TableCell>{product.quantity}</TableCell>
-                <TableCell>
-                  <Stack direction="row" spacing={2}>
-                    <Button
-                      variant="contained"
-                      onClick={() => handleRemoveQuantity(product.id)}
-                    >
-                      -
-                    </Button>
-                    <Button
-                      variant="contained"
-                      onClick={() => handleAddQuantity(product)}
-                    >
-                      +
-                    </Button>
-
-                    <Button>
-                      <DeleteIcon
-                        onClick={() => handleRemoveAll(product)}
-                      />
-                    </Button>
-                  </Stack>
-                </TableCell>
+                </TableCell> */}
+                <TableCell>order date</TableCell>
+                <TableCell>status</TableCell>
+                <TableCell>total price</TableCell>
               </TableRow>
-            ))}
+            {/* ))} */}
           </TableBody>
         </Table>
       </TableContainer>
@@ -87,7 +71,7 @@ function order() {
                 gap: 2
               }}
             >
-              Your cart is empty
+              You don't have Order History
               <Button
               variant="contained"
               onClick={shopNow}
