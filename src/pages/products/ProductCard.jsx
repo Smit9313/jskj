@@ -1,16 +1,28 @@
 import { Card, CardContent, CardActions, Button, Typography, Grid  } from '@mui/material';
 import { add } from '../../store/cartSlice'
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const style = {
+export const style = {
     flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'
 }
 
 const ProductCard = ({ product }) => {
+  const token = localStorage.getItem("token");
    const dispatch = useDispatch()
+   const navigate = useNavigate()
   
     const handleAdd=()=>{
-       dispatch(add(product))
+        if(token){
+          dispatch(add(product))
+        }else{
+          navigate('/register')
+        }
+      }
+    
+
+    const viewSingleProduct = () =>{
+      navigate(`/products/${product.id}`)
     }
 
     return (
@@ -19,7 +31,7 @@ const ProductCard = ({ product }) => {
         <div style={style}>
           <img src={product.image} alt={product.title} style={{ width: '40%', height: '100px' }} />
         </div>
-           <CardContent className='product' >
+           <CardContent className='product' onClick={viewSingleProduct}>
              <Typography variant="h6" component="div" style={style}>
                {product.name}
              </Typography>
@@ -32,11 +44,9 @@ const ProductCard = ({ product }) => {
                Add to cart
             </Button>
            </CardActions>
-         </Card>
-         
+         </Card> 
        </Grid>     
     );
-  };
-  
-  export default ProductCard;
+}
+export default ProductCard;
   

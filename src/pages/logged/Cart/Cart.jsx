@@ -62,7 +62,7 @@ function Cart() {
                   <TableRow key={product.id}>
                     <TableCell>
                       <img
-                        src={product.thumbnail}
+                        src={product.image}
                         alt=""
                         style={{
                           width: "50px",
@@ -71,7 +71,7 @@ function Cart() {
                         }}
                       />
                     </TableCell>
-                    <TableCell>{product.title}</TableCell>
+                    <TableCell>{product.name}</TableCell>
                     <TableCell>{product.price}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>

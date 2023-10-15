@@ -9,11 +9,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Product() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { data: products, status,totalProducts } = useSelector((state) => state.product);
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [search, setSearch] = useState("");
 
   const queryString = {
@@ -94,7 +93,7 @@ function Product() {
       >
         {products?.products?.length > 0 &&
           products?.products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product}/>
           ))}
         <TablePagination
           component="div"

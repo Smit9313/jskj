@@ -24,9 +24,12 @@ export default function Navbar() {
             <Button color="inherit" component={Link} to="/products">
               Product
             </Button>
-            <Button color="inherit" component={Link} to="/cart">
+            {token ?
+              <Button color="inherit" component={Link} to="/cart">
               Cart: {items.totalquantity}
-            </Button>
+            </Button>:<></>
+            }
+            
           </Stack>
           <Stack direction="row" spacing={2}>
             {!token ? (

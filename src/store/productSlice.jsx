@@ -12,7 +12,7 @@ const productSlice = createSlice({
     initialState: {
         data: [],
         status: STATUSES.IDLE,
-        totalProducts:0
+        totalProducts:0,
     },
     reducers: {
         setProducts(state, action) {
@@ -31,7 +31,6 @@ export const { setProducts, setStatus ,setTotalProducts} = productSlice.actions;
 export default productSlice.reducer;
 
 export function fetchProducts(page,rowsPerPage,search) {
-       
         return async function fetchProductThunk(dispatch, getState) {
             dispatch(setStatus(STATUSES.LOADING));
             try {
@@ -47,4 +46,8 @@ export function fetchProducts(page,rowsPerPage,search) {
                 dispatch(setStatus(STATUSES.ERROR));
             }
         };
-    }
+}
+
+export function fetchSingle(){
+    return async 
+}

@@ -16,4 +16,7 @@ axios.interceptors.response.use(function (response) {
 	return Promise.reject(error);
 });
 
+instance.defaults.headers.common['Authorization'] = localStorage.getItem('Atoken');
+instance.defaults.headers.common['accept-language'] = 'en';
+
 export { axiosClient };

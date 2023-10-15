@@ -1,41 +1,109 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
+import {style} from './ProductCard'
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-// import IconButton from '@mui/material/IconButton';
+import { add } from '../../store/cartSlice'
 import {Button} from '@mui/material'
 import Typography from '@mui/material/Typography';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getSingleProduct } from '../../services/api/Handler';
+import { useDispatch } from 'react-redux';
 
 function ViewProduct() {
-  const theme = useTheme();
+  const {id} = useParams();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
+  const [product,setProduct] = React.useState([])
+
+  React.useEffect(()=>{
+    getSingleProduct({id}).then(res=>{
+      // console.log(res)
+      if(res.status){
+        setProduct([res.data])
+      }else{
+        setProduct([])
+      }
+    })
+  },[])
+
+  const handleAdd =()=>{
+    dispatch(add(product))
+  }
+  
   return (
-    <Card sx={{ display: 'flex',  width: 700, marginTop: '50px' , alignItems: 'center', minHeight: '50vh', marginLeft:'22%', justifyContent: 'center'}}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <CardContent sx={{ flex: '1 0 auto' }}>
-          <Typography component="div" variant="h5">
-            Product Title
-          </Typography>
-          <Typography component="div" variant="subtitle1">
-            Price
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            Description
-          </Typography>
-        </CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-          <Button>Add to Cart</Button>
-        </Box>
-      </Box>
+    <Card sx={{ display: 'flex', width: 700, marginTop: '50px', alignItems: 'center', minHeight: '50vh', marginLeft: '22%', justifyContent: 'center' }}>
+  {product.length > 0 ? (
+    <>
       <CardMedia
         component="img"
-        sx={{ width: 151, marginLeft: '80px' }}
-        alt="Live from space album cover"
-        src='/ZDF_logo!_Logo_2021.svg.png'
+        sx={{ width: 151 ,marginRight: '70px'}}
+        alt="Product Image"
+        src={product[0].image}
       />
-    </Card>
+      <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
+        <CardContent sx={{ flex: '1 0 auto' }}>
+          <Typography component="div" variant="h5">
+           {product[0].name}
+          </Typography>
+          <Typography component="div" variant="subtitle1">
+          {product[0].price}
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary" component="div">
+            {product[0].description}
+          </Typography>
+        </CardContent>
+        
+        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+          <Button variant="contained" color="primary" size='small' fullWidth onClick={handleAdd}>Add to Cart</Button>
+        </Box>
+      </Box>
+    </>
+  ) : (
+    <>
+      <Typography component="div" variant="h5">
+        Product Not found
+      </Typography>
+      <Button variant="contained" color="primary" size='small' style={style} onClick={() => navigate('/products')}>Back to products</Button>
+    </>
+  )}
+</Card>
+
+    //   {/* <Card sx={{ display: 'flex',  width: 700, marginTop: '50px' , alignItems: 'center', minHeight: '50vh', marginLeft:'22%', justifyContent: 'center'}}>
+    //   <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    //   {product.length > 0  ? 
+    //   <>
+    //     <CardContent sx={{ flex: '1 0 auto' }}>
+    //       <Typography component="div" variant="h5">
+    //         Product Title
+    //       </Typography>
+    //       <Typography component="div" variant="subtitle1">
+    //         Price
+    //       </Typography>
+    //       <Typography variant="subtitle1" color="text.secondary" component="div">
+    //         Description
+    //       </Typography>
+    //     </CardContent>
+    //     <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+    //       <Button style={style}>Add to Cart</Button>
+    //     </Box>
+    //     <CardMedia
+    //     component="img"
+    //     sx={{ width: 151, marginLeft: 'auto' }}
+    //     alt="Live from space album cover"
+    //     src='/ZDF_logo!_Logo_2021.svg.png'
+    //   /> 
+    //   </>:<>
+    //     <Typography component="div" variant="h5">
+    //         Product Not found
+    //       </Typography>
+    //       <Button variant="contained" color="primary" size='small' style={style} onClick={()=>navigate('/products')}>Back to products</Button>
+    //   </>}
+       
+    //   </Box> 
+    // </Card> */}
   );
 }
 
