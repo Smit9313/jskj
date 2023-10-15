@@ -33,7 +33,7 @@ function ViewProduct() {
         component="img"
         sx={{ width: 151, marginLeft: '80px' }}
         alt="Live from space album cover"
-        // src={image}
+        src='/ZDF_logo!_Logo_2021.svg.png'
       />
     </Card>
   );

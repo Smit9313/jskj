@@ -1,4 +1,4 @@
-import { Card, CardContent, CardActions, Button, Typography, Grid, CardMedia } from '@mui/material';
+import { Card, CardContent, CardActions, Button, Typography, Grid  } from '@mui/material';
 import { add } from '../../store/cartSlice'
 import { useDispatch } from 'react-redux';
 
@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
         <div style={style}>
           <img src={product.image} alt={product.title} style={{ width: '40%', height: '100px' }} />
         </div>
-           <CardContent className='product'>
+           <CardContent className='product' >
              <Typography variant="h6" component="div" style={style}>
                {product.name}
              </Typography>
