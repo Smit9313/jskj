@@ -1,52 +1,86 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { addCart, getCart } from "../services/api/Handler";
 
 const cartSlice = createSlice({
-    name: 'cart',
-    initialState: {
-      products:[],
-      totalquantity: 0,
-      totalprice: 0
+    name:'cart',
+    initialState:{
+        cart:[],
+        totalquantity:0,
+        totalprice:0
     },
-    reducers: {
-        add(state, action) {
-            const addItem = action.payload
-            const checkExisting = state.products.find((item)=>(item.id === addItem.id))
-            state.totalprice += addItem.price
-            state.totalquantity++;  
-            
-            if(!checkExisting){
-                state.products.push({...addItem, quantity:1})
-            }else{
-                checkExisting.quantity++;
-                checkExisting.totalprice += addItem.price
-            }
-        },
+    reducers:{
+       setCart(state,action){
+        state.cart = action.payload
+       },
+       setQuantity(state,action){
+        state.totalquantity=action.payload
+       },
+       setTotalPrice(state,action){
+        state.totalprice=action.payload
+       }
+    }
+})
 
-        removeAll(state, action) {
-            const removeItem = action.payload
-            state.totalprice -= removeItem.price
-            state.totalquantity -= removeItem.quantity
-            state.products = state.products.filter((item)=> item.id !== removeItem.id)
-        },
-
-        removeOne(state, action) {
-            const id = action.payload;
-            const checkExisting = state.products.find( (item) => item.id === id)
-            state.totalprice = state.totalprice - checkExisting.price
-            state.totalquantity--
-      
-            if(checkExisting.quantity === 1)
-            {
-              state.products = state.products.filter((item) => item.id !== id)
-            }
-            else
-            {
-                checkExisting.quantity--
-            }
-
-    },
-}
-});
-
-export const { add, removeOne, removeAll } = cartSlice.actions;
+export const {setCart,setQuantity,setTotalPrice} = cartSlice.actions
 export default cartSlice.reducer;
+
+export function getCartt(){
+    return async function (dispatch,getState){
+        getCart({}).then((res)=>{
+            console.log(res)
+            if(res.status){
+                dispatch(setCart(res.data.cart_items))
+                dispatch(setTotalPrice( res.data.total_price))
+                dispatch(setQuantity(res.data.total_quantity))
+            }
+        })
+    }
+}
+
+export function addCartt(data){
+  let totalPrice;
+  let totalQty;
+  let cartData;
+  return async function (dispatch,getState){
+    console.log(data,"data")
+    console.log(getState().cart,"only state")
+    // console.log(getState().cart.product,"abcs only products")
+    const result = getState().cart.cart.find((item)=>item.product_id === data.product.id)
+    totalQty = getState().cart.totalquantity + data.quantity
+    if(result){
+        totalPrice = getState().cart.totalprice  + result.price_per_unit * data.quantity;
+        cartData= getState().cart.cart.map((val) =>
+        val.product_id === data.product.id
+          ? { ...val, quantity: val.quantity + data.quantity }
+          : val
+      );
+    }else{
+        const product = {
+            product_id: data.product.id,
+            product_name: data.product.name,
+            product_image: data.product.image,
+            quantity:data.quantity,
+            price_per_unit: data.product.price,
+        }
+        totalPrice = getState().cart.totalprice + data.product.price * data.quantity;
+        cartData = [...getState().cart.cart, product];
+    }
+    
+    const product = {
+        ProductId: data.product.id,
+        quantity:data.quantity
+    }
+    console.log(product)
+    addCart(product).then((res)=>{
+        console.log(res)
+        if(res.status){
+            dispatch(setCart(cartData))
+            dispatch(setQuantity(totalQty))
+            dispatch(setTotalPrice(totalPrice))
+        }
+    }).catch((err)=>{
+        console.log(err)
+    })
+
+  }
+}

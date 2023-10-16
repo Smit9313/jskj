@@ -4,17 +4,27 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { add } from '../../store/cartSlice'
+// import { add } from '../../store/cartSlice'
 import {Button} from '@mui/material'
 import Typography from '@mui/material/Typography';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSingleProduct } from '../../services/api/Handler';
 import { useDispatch } from 'react-redux';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { addCartt } from '../../store/cartSlice';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function ViewProduct() {
   const {id} = useParams();
   const dispatch = useDispatch()
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
   const navigate = useNavigate()
+  const token = localStorage.getItem("token");
 
   const [product,setProduct] = React.useState([])
 
@@ -29,13 +39,32 @@ function ViewProduct() {
     })
   },[])
 
-  const handleAdd =()=>{
-    dispatch(add(product))
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleAdd =(product)=>{
+    if(token){
+      dispatch(addCartt({product,quantity:1}))
+      setMessage('Item added to cart')
+      setOpen(true)
+    }else{
+      setMessage('You need to register')
+      setOpen(true)
+      setTimeout(()=>{
+        navigate('/register')
+      },3000)
+    }
   }
   
   return (
     <Card sx={{ display: 'flex', width: 700, marginTop: '50px', alignItems: 'center', minHeight: '50vh', marginLeft: '22%', justifyContent: 'center' }}>
-  {product.length > 0 ? (
+    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: "100%" ,position:'center'}}>
+          {message}
+        </Alert>
+      </Snackbar>
+     {product.length > 0 ? (
     <>
       <CardMedia
         component="img"
@@ -55,9 +84,8 @@ function ViewProduct() {
             {product[0].description}
           </Typography>
         </CardContent>
-        
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-          <Button variant="contained" color="primary" size='small' fullWidth onClick={handleAdd}>Add to Cart</Button>
+          <Button variant="contained" color="primary" size='small' fullWidth onClick={()=>handleAdd(product[0])}>Add to Cart</Button>
         </Box>
       </Box>
     </>

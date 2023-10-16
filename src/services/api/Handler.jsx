@@ -1,5 +1,12 @@
 import { axiosClient } from "./Client";
 
+const config = {
+    headers: {
+        Authorization: localStorage.getItem('token'),
+        'accept-language': 'en',
+    },
+}
+
 export function userRegister(data){
     return axiosClient.post("/auth/register",data)
 }
@@ -18,12 +25,9 @@ export function getSingleProduct(data){
 }
 
 export function addCart(data){
-    const config ={
-        headers: {
-            Authorization: localStorage.getItem('Atoken'),
-            'accept-language': 'en',
-        }
-    }
-    return axiosClient.post("/cart/add", data, config)
-    
+    return axiosClient.post("/cart/add", data, config) 
+}
+
+export function getCart(data){ 
+    return axiosClient.get("/cart", data, config)
 }

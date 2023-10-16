@@ -46,7 +46,7 @@ export default function Login() {
     userLogin(data).then(res=>{
       if(res.status===200){
         localStorage.setItem('token', res.data.token)
-        setMessage('succes')
+        setMessage('success')
         setOpen(true)
         navigate("/")
       }    
@@ -89,6 +89,7 @@ export default function Login() {
         <TextField
           id="password"
           label="Password"
+          type="password"
           name="password"
           variant="outlined"
           margin="dense"

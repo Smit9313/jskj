@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, STATUSES } from "../../store/productSlice";
 import ProductCard from "./ProductCard";
 import { Grid, Typography, TextField } from "@mui/material";
-import Filter from "./Filter";
+// import Filter from "./Filter";
 import TablePagination from "@mui/material/TablePagination";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Product() {
   const dispatch = useDispatch();
-  const { data: products, status,totalProducts } = useSelector((state) => state.product);
+  const { data: products, status, totalProducts } = useSelector((state) => state.product);
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -45,22 +45,15 @@ function Product() {
   }, [searchParams]);
 
   const handleChangePage = (event, newPage) => {
-    // setPage(newPage);
     searchParams.set("page", newPage);
     setSearchParams(searchParams);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    // setRowsPerPage(parseInt(event.target.value, 10));
-    // setPage(0)
     searchParams.set("page", 0);
     searchParams.set("rowsPerPage", event.target.value);
     setSearchParams(searchParams);
   };
-
-  // if (status === STATUSES.LOADING) {
-  //   return <h2>Loading....</h2>;
-  // }
 
   if (status === STATUSES.ERROR) {
     return <h2>Something went wrong!</h2>;

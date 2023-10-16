@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { add, removeAll, removeOne } from "../../../store/cartSlice";
+// import { add, removeAll, removeOne } from "../../../store/cartSlice";
 import {
   Table,
   TableBody,
@@ -15,25 +15,35 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
+import { getCart } from "../../../services/api/Handler";
+// import { getCartt } from "../../../store/cartSlice";
 
 function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const products = useSelector((state) => state.cart.products);
-  const totalPrice = useSelector((state) => state.cart.totalprice);
-  const totalQuantity = useSelector((state) => state.cart.totalquantity);
+  // const [cartItems , setCartItems] = useState([])
+  const {cart, totalprice, totalquantity} = useSelector((state)=>state.cart)
+
+  // useEffect(()=>{
+  //   getCart()
+  //   .then(res=>{
+  //       console.log(res.data)
+  //       setCartItems(res.data)
+  //   })
+  // },[])
 
   const handleRemoveAll = (id) => {
-    dispatch(removeAll(id));
+    // dispatch(removeAll(id));
   };
 
   const handleAddQuantity = (product) => {
-    dispatch(add(product));
+    // dispatch(add(product));
   };
 
   const handleRemoveQuantity = (id) => {
-    dispatch(removeOne(id));
+    // dispatch(removeOne(id));
   };
+  console.log(cart)
 
   const shopNow = ()=>{
     navigate('/products')
@@ -45,7 +55,7 @@ function Cart() {
         <Typography variant="h5" gutterBottom>
           Cart
         </Typography>
-        {products.length > 0 ? (
+        {cart.length > 0 ? (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -58,8 +68,8 @@ function Cart() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {products.map((product) => (
-                  <TableRow key={product.id}>
+                {cart.map((product) => (
+                  <TableRow key={product.product_id}>
                     <TableCell>
                       <img
                         src={product.image}
@@ -71,8 +81,8 @@ function Cart() {
                         }}
                       />
                     </TableCell>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.price}</TableCell>
+                    <TableCell>{product.product_name}</TableCell>
+                    <TableCell>{product.price_per_unit*product.quantity}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={2}>
@@ -125,13 +135,13 @@ function Cart() {
             
           </>
         )}
-        {products.length > 0 && (
+        {cart.length > 0 && (
           <TableContainer component={Paper} sx={{marginTop:'20%'}}>
             <Table>
               <TableRow>
                 <TableCell>Bill</TableCell>
-                <TableCell>Quantity : {totalQuantity}</TableCell>
-                <TableCell>Price : {totalPrice}</TableCell>
+                <TableCell>Quantity : {totalquantity}</TableCell>
+                <TableCell>Price : {totalprice}</TableCell>
                 <Button variant="contained" onClick={() => checkOut()}>
                   PayNow
                 </Button>

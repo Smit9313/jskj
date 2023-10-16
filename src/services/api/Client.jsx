@@ -5,6 +5,9 @@ const axiosClient = axios.create({
 });
 
 axios.interceptors.request.use(function (config) {
+	if(localStorage.getItem('token')!== undefined || localStorage.getItem('token') !== null){
+		config.headers['authorization'] = localStorage.getItem('token')
+	}
 	return config;
 }, function (error) {
 	return Promise.reject(error);
@@ -16,7 +19,7 @@ axios.interceptors.response.use(function (response) {
 	return Promise.reject(error);
 });
 
-instance.defaults.headers.common['Authorization'] = localStorage.getItem('Atoken');
-instance.defaults.headers.common['accept-language'] = 'en';
+axiosClient.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+axiosClient.defaults.headers.common['accept-language'] = 'en';
 
 export { axiosClient };

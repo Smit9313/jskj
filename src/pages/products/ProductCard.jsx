@@ -1,7 +1,16 @@
 import { Card, CardContent, CardActions, Button, Typography, Grid  } from '@mui/material';
-import { add } from '../../store/cartSlice'
+import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { addCartt } from '../../store/cartSlice';
+// import { getCart } from '../../services/api/Handler';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export const style = {
     flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'
@@ -9,18 +18,41 @@ export const style = {
 
 const ProductCard = ({ product }) => {
   const token = localStorage.getItem("token");
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
    const dispatch = useDispatch()
    const navigate = useNavigate()
+
+  //  const ProductId = product.id
+  //  const quantity = 1
+  const handleClose = () => {
+    setOpen(false);
+  };
   
-    const handleAdd=()=>{
+    const handleAdd=(product)=>{
         if(token){
-          dispatch(add(product))
+          // const data = {
+          //   'ProductId': product.id,
+          //   'quantity': 1
+          // }
+            // addCartt(data).then((res)=>
+            // console.log(res,"added to cart")
+            // ).catch((err)=>{
+            //   console.log(err)
+            // })
+          dispatch(addCartt({product,quantity:1}))
+          setMessage('Item added to cart')
+          setOpen(true)
         }else{
-          navigate('/register')
+          setMessage('You need to register')
+          setOpen(true)
+          setTimeout(() => {
+            navigate("/register");
+          }, 3000);
+          // navigate('/register')
         }
       }
     
-
     const viewSingleProduct = () =>{
       navigate(`/products/${product.id}`)
     }
@@ -40,11 +72,16 @@ const ProductCard = ({ product }) => {
              </Typography>
            </CardContent>
            <CardActions>
-             <Button variant="contained" color="primary" size='small' style={style} onClick={handleAdd}>
+             <Button variant="contained" color="primary" size='small' style={style} onClick={()=>handleAdd(product)}>
                Add to cart
             </Button>
            </CardActions>
          </Card> 
+         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: "100%" ,position:'center'}}>
+          {message}
+        </Alert>
+      </Snackbar>
        </Grid>     
     );
 }

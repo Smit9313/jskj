@@ -36,7 +36,7 @@ export function fetchProducts(page,rowsPerPage,search) {
             try {
                 // const res = await fetch('https://dummyjson.com/products');
                 const res = await getProduct({page,rowsPerPage,search});
-                console.log(res.data)
+                // console.log(res.data,"resssss")
                 // const data = await res.json();
                 dispatch(setTotalProducts(res.data.totalProduct))
                 dispatch(setProducts(res.data));
@@ -46,8 +46,4 @@ export function fetchProducts(page,rowsPerPage,search) {
                 dispatch(setStatus(STATUSES.ERROR));
             }
         };
-}
-
-export function fetchSingle(){
-    return async 
 }

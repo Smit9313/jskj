@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const navigate = useNavigate()
-  const items = useSelector((state) => state.cart);
+  const items = useSelector((state) => state.cart.totalquantity);
   const token = localStorage.getItem("token");
 
   return (
@@ -26,7 +26,7 @@ export default function Navbar() {
             </Button>
             {token ?
               <Button color="inherit" component={Link} to="/cart">
-              Cart: {items.totalquantity}
+              Cart:{items}
             </Button>:<></>
             }
             

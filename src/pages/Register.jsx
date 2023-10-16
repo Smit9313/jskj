@@ -131,6 +131,7 @@ function Register() {
             id="password"
             label="Password"
             name="password"
+            type="password"
             variant="outlined"
             fullWidth
             margin="dense"
