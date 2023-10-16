@@ -16,6 +16,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import { getCart } from "../../../services/api/Handler";
+import { removeCartt } from "../../../store/cartSlice";
 // import { getCartt } from "../../../store/cartSlice";
 
 function Cart() {
@@ -32,8 +33,8 @@ function Cart() {
   //   })
   // },[])
 
-  const handleRemoveAll = (id) => {
-    // dispatch(removeAll(id));
+  const handleRemoveAll = (ProductId) => {
+    dispatch(removeCartt({ProductId}))
   };
 
   const handleAddQuantity = (product) => {
@@ -101,7 +102,7 @@ function Cart() {
 
                         <Button>
                           <DeleteIcon
-                            onClick={() => handleRemoveAll(product)}
+                            onClick={() => handleRemoveAll(product.product_id)}
                           />
                         </Button>
                       </Stack>

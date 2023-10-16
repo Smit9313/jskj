@@ -31,3 +31,15 @@ export function addCart(data){
 export function getCart(data){ 
     return axiosClient.get("/cart", data, config)
 }
+
+export function removeCart (data){
+	return axiosClient.post('/cart/remove',data , config)
+}
+
+export function updateCart (data){
+	return axiosClient.patch('/cart/update', data, config)
+}
+
+export function removeAllCart (data){
+	return axiosClient.delete('/cart/removeAll', data, config)
+}

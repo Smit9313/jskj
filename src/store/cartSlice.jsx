@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addCart, getCart } from "../services/api/Handler";
+import { addCart, getCart, removeCart } from "../services/api/Handler";
 
 const cartSlice = createSlice({
     name:'cart',
@@ -42,8 +42,8 @@ export function addCartt(data){
   let totalQty;
   let cartData;
   return async function (dispatch,getState){
-    console.log(data,"data")
-    console.log(getState().cart,"only state")
+    // console.log(data,"data")
+    // console.log(getState().cart,"only state")
     // console.log(getState().cart.product,"abcs only products")
     const result = getState().cart.cart.find((item)=>item.product_id === data.product.id)
     totalQty = getState().cart.totalquantity + data.quantity
@@ -58,7 +58,7 @@ export function addCartt(data){
         const product = {
             product_id: data.product.id,
             product_name: data.product.name,
-            product_image: data.product.image,
+            image: data.product.image,
             quantity:data.quantity,
             price_per_unit: data.product.price,
         }
@@ -70,9 +70,9 @@ export function addCartt(data){
         ProductId: data.product.id,
         quantity:data.quantity
     }
-    console.log(product)
+    // console.log(product)
     addCart(product).then((res)=>{
-        console.log(res)
+        // console.log(res)
         if(res.status){
             dispatch(setCart(cartData))
             dispatch(setQuantity(totalQty))
@@ -81,6 +81,37 @@ export function addCartt(data){
     }).catch((err)=>{
         console.log(err)
     })
-
   }
 }
+
+export function removeCartt(data){
+    let totalPrice;
+    let totalQty;
+    let cartData;
+
+    return async function (dispatch, getState){
+        console.log(data.ProductId)
+        const result = getState().cart.cart.find((item)=>item.product_id === data.ProductId)
+        if(result){
+            console.log(result)
+            console.log(getState().cart.totalquantity)
+            totalQty = getState().cart.totalquantity - result.quantity
+            console.log(totalQty)
+            cartData = getState().cart.cart.filter((item)=>item.product_id !== data.ProductId)
+            console.log(cartData)
+        }
+      
+        console.log(data)
+        removeCart(data).then((res)=>{
+            console.log(res)
+            if(res.status){
+                dispatch(setCart(cartData))
+                dispatch(setQuantity(totalQty))
+                dispatch(setTotalPrice(totalPrice))
+            }
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
+}
+

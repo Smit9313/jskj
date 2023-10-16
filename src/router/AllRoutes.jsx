@@ -36,11 +36,12 @@ function AllRoutes() {
          : 
           <>
             {/* logout route */}
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/register" element={<Register />}></Route>
           </>
         }
             <Route path="/" element={<Home />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/register" element={<Register />}></Route>
+            
             <Route path="/products" element={<Product />}></Route>
             <Route path="/products/:id" element={<ViewProduct />}></Route>
             <Route path="/*" element={<NotFound />}></Route>
