@@ -14,6 +14,7 @@ import { userLogin } from "../services/api/Handler";
 import { Link, useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { getCartt } from "../store/cartSlice";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -46,6 +47,7 @@ export default function Login() {
     userLogin(data).then(res=>{
       if(res.status===200){
         localStorage.setItem('token', res.data.token)
+        getCartt()
         setMessage('success')
         setOpen(true)
         navigate("/")

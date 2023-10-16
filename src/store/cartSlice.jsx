@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addCart, getCart, removeCart } from "../services/api/Handler";
+import { addCart, getCart, removeCart, updateCart } from "../services/api/Handler";
 
 const cartSlice = createSlice({
     name:'cart',
@@ -115,3 +115,44 @@ export function removeCartt(data){
     }
 }
 
+export function updateCartt(data){
+    let totalPrice;
+    let totalQty;
+    let cartData;
+
+    return async function (dispatch,getState){
+        console.log(data,"data")
+        const result = getState().cart.cart.find(
+            (item)=>item.product_id === data.ProductId
+        )
+
+        if(result){
+            if(data.quantity > 0){
+                if(result.quantity > data.quantity){
+                    totalQty = getState().cart.totalquantity - 1;
+                    totalPrice = getState().cart.totalprice - result.price_per_unit
+                }else {
+                    totalQty = getState().cart.totalquantity + 1;
+                    totalPrice = getState().cart.totalprice + result.price_per_unit
+                }
+                cartData = getState().cart.cart.map((item)=>{
+                if(item.product_id === data.ProductId){
+                   return {...item, quantity: data.quantity}
+                }else{
+                    return item
+                }
+            })
+           }
+        }
+
+        if(data.quantity > 0){
+            updateCart(data).then((res)=>{
+                if(res.status){
+                    dispatch(setCart(cartData))
+                    dispatch(setQuantity(totalQty))
+                    dispatch(setTotalPrice(totalPrice))
+                }
+            })
+        }
+    }
+}

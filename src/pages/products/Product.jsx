@@ -2,14 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, STATUSES } from "../../store/productSlice";
 import ProductCard from "./ProductCard";
-import { Grid, Typography, TextField } from "@mui/material";
+import { Grid, Typography, TextField ,Table,
+  TableContainer,
+  TableRow,
+  Paper} from "@mui/material";
 // import Filter from "./Filter";
 import TablePagination from "@mui/material/TablePagination";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 function Product() {
   const dispatch = useDispatch();
-  const { data: products, status, totalProducts } = useSelector((state) => state.product);
+  const {
+    data: products,
+    status,
+    totalProducts,
+  } = useSelector((state) => state.product);
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -78,26 +85,33 @@ function Product() {
         }}
       />
       {/* <Filter/> */}
-      { status===STATUSES.IDLE &&
-      <Grid
-        container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 4, sm: 8, md: 12 }}
-      >
-        {products?.products?.length > 0 &&
-          products?.products.map((product) => (
-            <ProductCard key={product.id} product={product}/>
-          ))}
-        <TablePagination
-          component="div"
-          count={totalProducts || 100}
-          page={page || 0}
-          onPageChange={handleChangePage}
-          rowsPerPage={+rowsPerPage || 10}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Grid>
-      }
+      {status === STATUSES.IDLE && (
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+        >
+          {products?.products?.length > 0 &&
+            products?.products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          <TableContainer component={Paper} sx={{ marginTop: "20%"}}>
+            <Table>
+              <TableRow  sx={{ display: 'flex', margin: 'auto', width: "400px"}}>
+                <TablePagination
+               
+                  component="div"
+                  count={totalProducts || 100}
+                  page={page || 0}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={+rowsPerPage || 10}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </Table>
+          </TableContainer>
+        </Grid>
+      )}
       {status === STATUSES.LOADING && <h2>Loading....</h2>}
     </div>
   );

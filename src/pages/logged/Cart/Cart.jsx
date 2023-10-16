@@ -16,7 +16,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import { getCart } from "../../../services/api/Handler";
-import { removeCartt } from "../../../store/cartSlice";
+import { removeCartt, updateCartt } from "../../../store/cartSlice";
 // import { getCartt } from "../../../store/cartSlice";
 
 function Cart() {
@@ -33,16 +33,13 @@ function Cart() {
   //   })
   // },[])
 
-  const handleRemoveAll = (ProductId) => {
-    dispatch(removeCartt({ProductId}))
+  const handleRemoveAll = (id) => {
+    dispatch(removeCartt({ProductId:id}))
   };
 
-  const handleAddQuantity = (product) => {
-    // dispatch(add(product));
-  };
-
-  const handleRemoveQuantity = (id) => {
-    // dispatch(removeOne(id));
+  const handleUpdateQuantity = (id,quantity) => {
+    console.log(id,quantity)
+    dispatch(updateCartt({ProductId:id,quantity}));
   };
   console.log(cart)
 
@@ -83,26 +80,26 @@ function Cart() {
                       />
                     </TableCell>
                     <TableCell>{product.product_name}</TableCell>
-                    <TableCell>{product.price_per_unit*product.quantity}</TableCell>
+                    <TableCell>{(product.price_per_unit*product.quantity).toFixed(2)}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={2}>
                         <Button
                           variant="contained"
-                          onClick={() => handleRemoveQuantity(product.id)}
+                          onClick={() => handleUpdateQuantity(product.product_id,product.quantity - 1)}
                         >
                           -
                         </Button>
                         <Button
                           variant="contained"
-                          onClick={() => handleAddQuantity(product)}
+                          onClick={() => handleUpdateQuantity(product.product_id,product.quantity + 1)}
                         >
                           +
                         </Button>
 
                         <Button>
                           <DeleteIcon
-                            onClick={() => handleRemoveAll(product.product_id)}
+                            onClick={() => handleRemoveAll(product.product_id,product.quantity + 1)}
                           />
                         </Button>
                       </Stack>
@@ -142,7 +139,7 @@ function Cart() {
               <TableRow>
                 <TableCell>Bill</TableCell>
                 <TableCell>Quantity : {totalquantity}</TableCell>
-                <TableCell>Price : {totalprice}</TableCell>
+                <TableCell>Price : {totalprice.toFixed(2)}</TableCell>
                 <Button variant="contained" onClick={() => checkOut()}>
                   PayNow
                 </Button>

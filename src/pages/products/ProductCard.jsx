@@ -48,8 +48,7 @@ const ProductCard = ({ product }) => {
           setOpen(true)
           setTimeout(() => {
             navigate("/register");
-          }, 3000);
-          // navigate('/register')
+          }, 3000)
         }
       }
     
