@@ -41,5 +41,5 @@ export function updateCart (data){
 }
 
 export function removeAllCart (data){
-	return axiosClient.delete('/cart/removeAll', data, config)
+	return axiosClient.delete('/cart/removeAll',data, config)
 }

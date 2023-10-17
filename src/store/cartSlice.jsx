@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addCart, getCart, removeCart, updateCart } from "../services/api/Handler";
+import { addCart, getCart, removeAllCart, removeCart, updateCart } from "../services/api/Handler";
+
+const initial = {
+    cart:[],
+    totalquantity:0,
+    totalprice:0
+}
 
 const cartSlice = createSlice({
     name:'cart',
-    initialState:{
-        cart:[],
-        totalquantity:0,
-        totalprice:0
-    },
+    initialState:initial,
     reducers:{
        setCart(state,action){
         state.cart = action.payload
@@ -148,11 +150,24 @@ export function updateCartt(data){
         if(data.quantity > 0){
             updateCart(data).then((res)=>{
                 if(res.status){
-                    dispatch(setCart(cartData))
+                    dispatch (setCart(cartData))
                     dispatch(setQuantity(totalQty))
                     dispatch(setTotalPrice(totalPrice))
                 }
             })
         }
+    }
+}
+
+export function removeAllCartt(){
+    return async function (dispatch,getState){
+        removeAllCart({}).then((res)=>{
+            console.log(res)
+            if(res.status){
+                dispatch(setCart([]))
+                dispatch(setQuantity(0))
+                dispatch(setTotalPrice(0))
+            }
+        })
     }
 }

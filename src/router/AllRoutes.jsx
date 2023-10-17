@@ -11,40 +11,39 @@ import Order from "../pages/logged/Order/order";
 import ViewProduct from "../pages/products/ViewProduct";
 import { useDispatch } from "react-redux";
 import { getCartt } from "../store/cartSlice";
+import { useAuthHook } from "../hooks/useAuthHook";
 
 function AllRoutes() {
-   const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const token = localStorage.getItem("token");
+  const {token} = useAuthHook();
 
-  useEffect(()=>{
-    if(token){
-      dispatch(getCartt())
+  useEffect(() => {
+    if (token) {
+      dispatch(getCartt());
     }
-  },[])
-  
+  }, []);
 
   return (
     <>
       <Navbar />
       <Routes>
-        {token ? 
+        <Route path="/" element={<Home />}></Route>
+
+        <Route path="/products" element={<Product />}></Route>
+        {token ? (
           <>
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/order" element={<Order />}></Route>
           </>
-         : 
+        ) : (
           <>
-            {/* logout route */}
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
           </>
-        }
-            <Route path="/" element={<Home />}></Route>
-            
-            <Route path="/products" element={<Product />}></Route>
-            <Route path="/products/:id" element={<ViewProduct />}></Route>
-            <Route path="/*" element={<NotFound />}></Route>
+        )}
+        <Route path="/products/:id" element={<ViewProduct />}></Route>
+        <Route path="/*" element={<NotFound />}></Route>
       </Routes>
     </>
   );

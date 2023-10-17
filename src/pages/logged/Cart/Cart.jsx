@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { add, removeAll, removeOne } from "../../../store/cartSlice";
 import {
@@ -16,7 +16,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import { getCart } from "../../../services/api/Handler";
-import { removeCartt, updateCartt } from "../../../store/cartSlice";
+import { removeAllCartt, removeCartt, updateCartt } from "../../../store/cartSlice";
 // import { getCartt } from "../../../store/cartSlice";
 
 function Cart() {
@@ -41,7 +41,10 @@ function Cart() {
     console.log(id,quantity)
     dispatch(updateCartt({ProductId:id,quantity}));
   };
-  console.log(cart)
+  
+  const removeCart = () =>{
+      dispatch(removeAllCartt())
+  }
 
   const shopNow = ()=>{
     navigate('/products')
@@ -53,7 +56,10 @@ function Cart() {
         <Typography variant="h5" gutterBottom>
           Cart
         </Typography>
+        
         {cart.length > 0 ? (
+          <>
+          <Button variant="contained" onClick={()=>removeCart()}>Remove Cart</Button>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -96,7 +102,6 @@ function Cart() {
                         >
                           +
                         </Button>
-
                         <Button>
                           <DeleteIcon
                             onClick={() => handleRemoveAll(product.product_id,product.quantity + 1)}
@@ -109,6 +114,7 @@ function Cart() {
               </TableBody>
             </Table>
           </TableContainer>
+          </>
         ) : (
           <>
             <Typography
@@ -139,7 +145,7 @@ function Cart() {
               <TableRow>
                 <TableCell>Bill</TableCell>
                 <TableCell>Quantity : {totalquantity}</TableCell>
-                <TableCell>Price : {totalprice.toFixed(2)}</TableCell>
+                <TableCell>Price : {totalprice?.toFixed(2)}</TableCell>
                 <Button variant="contained" onClick={() => checkOut()}>
                   PayNow
                 </Button>

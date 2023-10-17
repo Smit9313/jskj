@@ -15,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { getCartt } from "../store/cartSlice";
+import { useAuthHook } from "../hooks/useAuthHook";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -26,6 +27,7 @@ export default function Login() {
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const navigate = useNavigate();
+  const {logIn} = useAuthHook();
 
   const handleClose = () => {
     setOpen(false);
@@ -46,8 +48,9 @@ export default function Login() {
   const onSubmit = (data) => {
     userLogin(data).then(res=>{
       if(res.status===200){
-        localStorage.setItem('token', res.data.token)
-        getCartt()
+        // localStorage.setItem('token', res.data.token)
+        logIn(res.data.token)
+        // getCartt()
         setMessage('success')
         setOpen(true)
         navigate("/")
