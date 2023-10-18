@@ -67,7 +67,7 @@ function Product() {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", marginTop: "70px" }}>
       <Typography variant="h5" gutterBottom>
         Products
       </Typography>
@@ -95,7 +95,7 @@ function Product() {
             products?.products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
-          <TableContainer component={Paper} sx={{ marginTop: "20%"}}>
+          <TableContainer component={Paper} sx={{ marginTop: 2}}>
             <Table>
               <TableRow  sx={{ display: 'flex', margin: 'auto', width: "400px"}}>
                 <TablePagination

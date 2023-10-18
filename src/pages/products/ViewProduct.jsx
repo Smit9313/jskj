@@ -58,8 +58,8 @@ function ViewProduct() {
   }
   
   return (
-    <Card sx={{ display: 'flex', width: 700, marginTop: '50px', alignItems: 'center', minHeight: '50vh', marginLeft: '22%', justifyContent: 'center' }}>
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+    <Card sx={{ display: 'flex', width: 700, marginTop: '100px', alignItems: 'center', minHeight: '50vh', marginLeft: '22%', justifyContent: 'center' }}>
+    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="info" sx={{ width: "100%" ,position:'center'}}>
           {message}
         </Alert>

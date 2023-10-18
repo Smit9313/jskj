@@ -21,7 +21,7 @@ const navigate = useNavigate()
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", marginTop: "70px" }}>
     <Typography variant="h5" gutterBottom>
       Order
     </Typography>
@@ -30,8 +30,8 @@ const navigate = useNavigate()
         <Table>
           <TableHead>
             <TableRow>
-              
               <TableCell>Order Date</TableCell>
+              <TableCell>Product</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Total Price</TableCell>
             </TableRow>
@@ -51,6 +51,7 @@ const navigate = useNavigate()
                   />
                 </TableCell> */}
                 <TableCell>order date</TableCell>
+                <TableCell>product</TableCell>
                 <TableCell>status</TableCell>
                 <TableCell>total price</TableCell>
               </TableRow>

@@ -34,7 +34,7 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <Stack direction="row" spacing={2}>
             <Button onClick={() => navigate("/")}>
@@ -56,7 +56,9 @@ export default function Navbar() {
               </>
             ) : (
               <>
-              
+              <Button color="inherit" component={Link} to="/order">
+                Order
+              </Button>
               {token ? (
               <Button color="inherit" component={Link} to="/cart">
                 <IconButton aria-label="cart">

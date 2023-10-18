@@ -12,6 +12,7 @@ import ViewProduct from "../pages/products/ViewProduct";
 import { useDispatch } from "react-redux";
 import { getCartt } from "../store/cartSlice";
 import { useAuthHook } from "../hooks/useAuthHook";
+import Checkout from "../pages/logged/Order/Checkout";
 
 function AllRoutes() {
   const dispatch = useDispatch();
@@ -19,10 +20,11 @@ function AllRoutes() {
   const {token} = useAuthHook();
 
   useEffect(() => {
+    console.log(token)
     if (token) {
       dispatch(getCartt());
     }
-  }, []);
+  }, [token]);
 
   return (
     <>
@@ -35,6 +37,7 @@ function AllRoutes() {
           <>
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/order" element={<Order />}></Route>
+            <Route path="/checkout" element={<Checkout />}></Route>
           </>
         ) : (
           <>

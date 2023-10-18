@@ -12,33 +12,39 @@ import {
   Typography,
   Button,
   Stack,
+  Modal,
+  Box
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-import { getCart } from "../../../services/api/Handler";
+import { orderPlace } from "../../../services/api/Handler";
 import { removeAllCartt, removeCartt, updateCartt } from "../../../store/cartSlice";
 // import { getCartt } from "../../../store/cartSlice";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  gap: 16,
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [cartItems , setCartItems] = useState([])
   const {cart, totalprice, totalquantity} = useSelector((state)=>state.cart)
-
-  // useEffect(()=>{
-  //   getCart()
-  //   .then(res=>{
-  //       console.log(res.data)
-  //       setCartItems(res.data)
-  //   })
-  // },[])
+  const [open, setOpen] = React.useState(false);
 
   const handleRemoveAll = (id) => {
     dispatch(removeCartt({ProductId:id}))
   };
 
   const handleUpdateQuantity = (id,quantity) => {
-    console.log(id,quantity)
     dispatch(updateCartt({ProductId:id,quantity}));
   };
   
@@ -46,13 +52,31 @@ function Cart() {
       dispatch(removeAllCartt())
   }
 
+  const handleClose = () => setOpen(false);
+
   const shopNow = ()=>{
     navigate('/products')
   }
 
+  const checkOut = ()=>{
+    setOpen(true)
+  }
+
+  const handleorderPlace=()=>{
+    const data = {
+      shipping: {
+        street: 'Law Garden',
+        city: 'Maninagar',
+        zipCode: '890XXG'
+    },
+    paymentMethod: "credit_card"
+    }
+    orderPlace(data)
+    navigate('/order')
+  }
+
   return (
-    <>
-      <div style={{ padding: "20px" }}>
+      <div style={{ padding: "20px", marginTop: "70px" }}>
         <Typography variant="h5" gutterBottom>
           Cart
         </Typography>
@@ -66,8 +90,9 @@ function Cart() {
                 <TableRow>
                   <TableCell>Image</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Price</TableCell>
+                  <TableCell>Price per Unit</TableCell>
                   <TableCell>Quantity</TableCell>
+                  <TableCell>Price</TableCell>
                   <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -86,8 +111,9 @@ function Cart() {
                       />
                     </TableCell>
                     <TableCell>{product.product_name}</TableCell>
-                    <TableCell>{(product.price_per_unit*product.quantity).toFixed(2)}</TableCell>
+                    <TableCell>{product.price_per_unit.toFixed(2)}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
+                    <TableCell>{(product.price_per_unit*product.quantity).toFixed(2)}</TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={2}>
                         <Button
@@ -104,7 +130,7 @@ function Cart() {
                         </Button>
                         <Button>
                           <DeleteIcon
-                            onClick={() => handleRemoveAll(product.product_id,product.quantity + 1)}
+                            onClick={() => handleRemoveAll(product.product_id)}
                           />
                         </Button>
                       </Stack>
@@ -140,21 +166,45 @@ function Cart() {
           </>
         )}
         {cart.length > 0 && (
-          <TableContainer component={Paper} sx={{marginTop:'20%'}}>
+          <TableContainer component={Paper} sx={{marginTop: 2}}>
             <Table>
               <TableRow>
                 <TableCell>Bill</TableCell>
-                <TableCell>Quantity : {totalquantity}</TableCell>
-                <TableCell>Price : {totalprice?.toFixed(2)}</TableCell>
+                <TableCell>Total Quantity: {totalquantity}</TableCell>
+                <TableCell>Total Price: {totalprice?.toFixed(2)}</TableCell>
                 <Button variant="contained" onClick={() => checkOut()}>
-                  PayNow
+                  CheckOut
                 </Button>
               </TableRow>
             </Table>
           </TableContainer>
         )}
+        <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+        
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you want to place order?
+          </Typography>
+        <Box sx={{display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16, // Adjust the gap between buttons as needed
+        marginTop: 2, }}
+>
+          <Button variant="contained" onClick={handleorderPlace}>Yes</Button>
+          <Button variant="contained" onClick={handleClose}>No</Button>
+          </Box>
+        </Box>
+      </Modal>
+    </div>
       </div>
-    </>
+    
   );
 }
 

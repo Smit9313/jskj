@@ -57,12 +57,13 @@ const ProductCard = ({ product }) => {
     }
 
     return (
-        <Grid item xs={2} sm={4} md={4}>
+        <Grid item xs={2} sm={4} md={4} sx={{mt:"70px"}}>
         <Card style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' ,padding:5}}>
-        <div style={style}>
+
+           <CardContent className='product' onClick={viewSingleProduct}>
+           <div style={style}>
           <img src={product.image} alt={product.title} style={{ width: '40%', height: '100px' }} />
         </div>
-           <CardContent className='product' onClick={viewSingleProduct}>
              <Typography variant="h6" component="div" style={style}>
                {product.name}
              </Typography>
@@ -76,7 +77,7 @@ const ProductCard = ({ product }) => {
             </Button>
            </CardActions>
          </Card> 
-         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="info" sx={{ width: "100%" ,position:'center'}}>
           {message}
         </Alert>

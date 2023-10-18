@@ -98,9 +98,8 @@ export function removeCartt(data){
             console.log(result)
             console.log(getState().cart.totalquantity)
             totalQty = getState().cart.totalquantity - result.quantity
-            console.log(totalQty)
+            totalPrice = getState().cart.totalprice - result.price_per_unit * result.quantity;
             cartData = getState().cart.cart.filter((item)=>item.product_id !== data.ProductId)
-            console.log(cartData)
         }
       
         console.log(data)
