@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import {
     Table,
     TableBody,
@@ -9,80 +9,106 @@ import {
     Paper,
     Typography,
     Button,
-    Stack,
   } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
+import { getOrder } from '../../../services/api/Handler';
 
 function order() {
 const navigate = useNavigate()
+const [order, setOrder] = useState([])
 
   const shopNow = () => {
     navigate('/products')
   }
+
+  useEffect(()=>{
+   getOrder().then((res)=>{
+    console.log(res)
+    if(res.status){
+       setOrder(res.data.OrderDetails)
+    }
+  }).catch((err)=>
+  console.log(err))
+},[])
+
 
   return (
     <div style={{ padding: "20px", marginTop: "70px" }}>
     <Typography variant="h5" gutterBottom>
       Order
     </Typography>
-    {/* {products.length > 0 ? ( */}
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
+    {
+      order.length>0 ? <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+          <TableCell>Order Date</TableCell>
+          <TableCell>Product</TableCell>
+          <TableCell>Status</TableCell>
+          <TableCell>Total Price</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          
+
+        {order.map((item)=>(
+          <TableRow>
+            <TableCell>{item.order_date.split("T")[0]}</TableCell>
+            <TableCell>
+            <Table>
+        <TableHead>
+          <TableRow>
+          <TableCell>Name</TableCell>
+          <TableCell>Image</TableCell>
+          <TableCell>Price</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+           {item.products.map((single)=>(
             <TableRow>
-              <TableCell>Order Date</TableCell>
-              <TableCell>Product</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Total Price</TableCell>
+            <TableCell>{single.name}</TableCell>
+            <TableCell><img
+                        src={single.image}
+                        alt=""
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                        }}
+                      /></TableCell>
+            <TableCell>{single.price}</TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* {products.map((product) => (  key={id}*/}
-              <TableRow >
-                {/* <TableCell>
-                  <img
-                    // src={product.thumbnail}
-                    alt=""
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      objectFit: "cover",
-                    }}
-                  />
-                </TableCell> */}
-                <TableCell>order date</TableCell>
-                <TableCell>product</TableCell>
-                <TableCell>status</TableCell>
-                <TableCell>total price</TableCell>
-              </TableRow>
-            {/* ))} */}
-          </TableBody>
+        ))}
+        </TableBody>
         </Table>
-      </TableContainer>
-      {/* ) : ( */}
-          <>
-            <Typography
-              variant="h5"
-              component="div"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                gap: 2
-              }}
-            >
-              You don't have Order History
-              <Button
-              variant="contained"
-              onClick={shopNow}
-            >
-              Shop Now
-            </Button>
-            </Typography>
-            
-          </>
-        {/* )} */}
+            </TableCell>
+            <TableCell>{item.status}</TableCell>
+            <TableCell>{(item.total_price).toFixed(2)}</TableCell>
+          </TableRow>
+        ))}
+        </TableBody>
+      </Table>       
+      </TableContainer>:
+      <Typography
+      variant="h5"
+      component="div"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        gap: 2
+      }}
+    >
+      You don't have Order History
+      <Button
+      variant="contained"
+      onClick={shopNow}
+    >
+      Shop Now
+    </Button>
+    </Typography>
+    }
     </div>
 )}
 

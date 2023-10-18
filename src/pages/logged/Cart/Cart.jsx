@@ -19,7 +19,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import { orderPlace } from "../../../services/api/Handler";
 import { removeAllCartt, removeCartt, updateCartt } from "../../../store/cartSlice";
-// import { getCartt } from "../../../store/cartSlice";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const style = {
   position: 'absolute',
@@ -39,17 +43,25 @@ function Cart() {
   const navigate = useNavigate();
   const {cart, totalprice, totalquantity} = useSelector((state)=>state.cart)
   const [open, setOpen] = React.useState(false);
+  const [opentoaster, setOpenToaster] = React.useState(false);
+  const [message, setMessage] = React.useState("");
 
   const handleRemoveAll = (id) => {
     dispatch(removeCartt({ProductId:id}))
+    setMessage('Removed product')
+    setOpenToaster(true)
   };
 
   const handleUpdateQuantity = (id,quantity) => {
-    dispatch(updateCartt({ProductId:id,quantity}));
+    dispatch(updateCartt({ProductId:id,quantity}))
+    setMessage('Quantity updated')
+    setOpenToaster(true)
   };
   
   const removeCart = () =>{
       dispatch(removeAllCartt())
+      setMessage('Removed cart')
+      setOpenToaster(true)
   }
 
   const handleClose = () => setOpen(false);
@@ -62,6 +74,10 @@ function Cart() {
     setOpen(true)
   }
 
+  const handleCloseToaster = () =>{
+    setOpenToaster(false)
+  }
+
   const handleorderPlace=()=>{
     const data = {
       shipping: {
@@ -71,8 +87,14 @@ function Cart() {
     },
     paymentMethod: "credit_card"
     }
-    orderPlace(data)
-    navigate('/order')
+    orderPlace(data).then((res)=>{
+      setMessage('Order Successful placed')
+      setOpenToaster(true)
+    }).catch((err)=>console.log(err))
+    //cart empty
+    setTimeout(()=>{
+      navigate('/order')
+    },3000)
   }
 
   return (
@@ -80,7 +102,11 @@ function Cart() {
         <Typography variant="h5" gutterBottom>
           Cart
         </Typography>
-        
+        <Snackbar open={opentoaster} autoHideDuration={3000} onClose={handleCloseToaster}>
+        <Alert onClose={handleCloseToaster} severity="info" sx={{ width: "100%" ,position:'center'}}>
+          {message}
+        </Alert>
+      </Snackbar>
         {cart.length > 0 ? (
           <>
           <Button variant="contained" onClick={()=>removeCart()}>Remove Cart</Button>

@@ -16,6 +16,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { getCartt } from "../store/cartSlice";
 import { useAuthHook } from "../hooks/useAuthHook";
+import { useDispatch } from "react-redux";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -26,6 +27,7 @@ export default function Login() {
 
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const {logIn} = useAuthHook();
 
@@ -53,6 +55,7 @@ export default function Login() {
         // getCartt()
         setMessage('success')
         setOpen(true)
+        dispatch(getCartt())
         navigate("/")
       }    
     }).catch(err=>{

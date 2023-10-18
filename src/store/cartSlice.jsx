@@ -29,13 +29,13 @@ export default cartSlice.reducer;
 export function getCartt(){
     return async function (dispatch,getState){
         getCart({}).then((res)=>{
-            console.log(res)
             if(res.status){
                 dispatch(setCart(res.data.cart_items))
                 dispatch(setTotalPrice( res.data.total_price))
                 dispatch(setQuantity(res.data.total_quantity))
             }
-        })
+        }).catch((err)=>
+        console.log(err))
     }
 }
 

@@ -12,7 +12,7 @@ import ViewProduct from "../pages/products/ViewProduct";
 import { useDispatch } from "react-redux";
 import { getCartt } from "../store/cartSlice";
 import { useAuthHook } from "../hooks/useAuthHook";
-import Checkout from "../pages/logged/Order/Checkout";
+import Dashboard from "../pages/logged/Dashboard";
 
 function AllRoutes() {
   const dispatch = useDispatch();
@@ -20,8 +20,9 @@ function AllRoutes() {
   const {token} = useAuthHook();
 
   useEffect(() => {
-    console.log(token)
+    console.log(token,"token")
     if (token) {
+      console.log("hello")
       dispatch(getCartt());
     }
   }, [token]);
@@ -30,14 +31,13 @@ function AllRoutes() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/" element={<Dashboard />}></Route>
 
         <Route path="/products" element={<Product />}></Route>
         {token ? (
           <>
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/order" element={<Order />}></Route>
-            <Route path="/checkout" element={<Checkout />}></Route>
           </>
         ) : (
           <>

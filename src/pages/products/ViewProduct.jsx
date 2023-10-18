@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { addCartt } from '../../store/cartSlice';
+import { useAuthHook } from '../../hooks/useAuthHook';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -24,7 +25,8 @@ function ViewProduct() {
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const navigate = useNavigate()
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
+  const {token} = useAuthHook()
 
   const [product,setProduct] = React.useState([])
 

@@ -6,6 +6,7 @@ import { addCartt } from '../../store/cartSlice';
 // import { getCart } from '../../services/api/Handler';
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { useAuthHook } from '../../hooks/useAuthHook';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -17,7 +18,8 @@ export const style = {
 }
 
 const ProductCard = ({ product }) => {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
+  const {token} = useAuthHook();
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
    const dispatch = useDispatch()
