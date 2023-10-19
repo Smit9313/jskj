@@ -25,14 +25,12 @@ function ViewProduct() {
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const navigate = useNavigate()
-  // const token = localStorage.getItem("token");
   const {token} = useAuthHook()
 
   const [product,setProduct] = React.useState([])
 
   React.useEffect(()=>{
     getSingleProduct({id}).then(res=>{
-      // console.log(res)
       if(res.status){
         setProduct([res.data])
       }else{
@@ -100,40 +98,6 @@ function ViewProduct() {
     </>
   )}
 </Card>
-
-    //   {/* <Card sx={{ display: 'flex',  width: 700, marginTop: '50px' , alignItems: 'center', minHeight: '50vh', marginLeft:'22%', justifyContent: 'center'}}>
-    //   <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-    //   {product.length > 0  ? 
-    //   <>
-    //     <CardContent sx={{ flex: '1 0 auto' }}>
-    //       <Typography component="div" variant="h5">
-    //         Product Title
-    //       </Typography>
-    //       <Typography component="div" variant="subtitle1">
-    //         Price
-    //       </Typography>
-    //       <Typography variant="subtitle1" color="text.secondary" component="div">
-    //         Description
-    //       </Typography>
-    //     </CardContent>
-    //     <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-    //       <Button style={style}>Add to Cart</Button>
-    //     </Box>
-    //     <CardMedia
-    //     component="img"
-    //     sx={{ width: 151, marginLeft: 'auto' }}
-    //     alt="Live from space album cover"
-    //     src='/ZDF_logo!_Logo_2021.svg.png'
-    //   /> 
-    //   </>:<>
-    //     <Typography component="div" variant="h5">
-    //         Product Not found
-    //       </Typography>
-    //       <Button variant="contained" color="primary" size='small' style={style} onClick={()=>navigate('/products')}>Back to products</Button>
-    //   </>}
-       
-    //   </Box> 
-    // </Card> */}
   );
 }
 

@@ -84,7 +84,6 @@ function Product() {
           setSearchParams(searchParams);
         }}
       />
-      {/* <Filter/> */}
       {status === STATUSES.IDLE && (
         <Grid
           container

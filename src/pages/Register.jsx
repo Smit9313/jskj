@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { userRegister } from "../services/api/Handler";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
@@ -54,8 +54,7 @@ function Register() {
       .then((res) => {
         if (res.status === 201) {
           setMessage("User Registered!! Verify email");
-          setOpen(true);
-          // alert('User Registered!! Verify email')
+          setOpen(true)
           setTimeout(() => {
             navigate("/login");
           }, 3000);
@@ -142,9 +141,6 @@ function Register() {
               {errors.password?.message}
             </InputLabel>
           )}
-          {/* <TextField type='file' id="profilepicture" name="profilepicture" variant="outlined" fullWidth
-        margin="dense" {...register('profilepicture')} /> */}
-          {/* {errors.password && <InputLabel  sx={{color: 'red'}}>{errors.password?.message}</InputLabel>} */}
           <Button
             type="submit"
             variant="contained"

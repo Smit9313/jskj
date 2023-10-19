@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { userLogin } from "../services/api/Handler";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { getCartt } from "../store/cartSlice";
@@ -50,9 +50,7 @@ export default function Login() {
   const onSubmit = (data) => {
     userLogin(data).then(res=>{
       if(res.status===200){
-        // localStorage.setItem('token', res.data.token)
         logIn(res.data.token)
-        // getCartt()
         setMessage('success')
         setOpen(true)
         dispatch(getCartt())

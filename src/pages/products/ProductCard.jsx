@@ -18,30 +18,18 @@ export const style = {
 }
 
 const ProductCard = ({ product }) => {
-  // const token = localStorage.getItem("token");
   const {token} = useAuthHook();
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
-  //  const ProductId = product.id
-  //  const quantity = 1
   const handleClose = () => {
     setOpen(false);
   };
   
     const handleAdd=(product)=>{
         if(token){
-          // const data = {
-          //   'ProductId': product.id,
-          //   'quantity': 1
-          // }
-            // addCartt(data).then((res)=>
-            // console.log(res,"added to cart")
-            // ).catch((err)=>{
-            //   console.log(err)
-            // })
           dispatch(addCartt({product,quantity:1}))
           setMessage('Item added to cart')
           setOpen(true)

@@ -25,11 +25,9 @@ export default function Navbar() {
   const navigate = useNavigate();
   const items = useSelector((state) => state.cart.totalquantity);
   const { token, logOut } = useAuthHook();
-  // const token = localStorage.getItem("token");
 
   const Logout = () => {
     logOut();
-    // localStorage.removeItem("token")
   };
 
   return (

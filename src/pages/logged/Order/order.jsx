@@ -31,6 +31,7 @@ const [order, setOrder] = useState([])
   console.log(err))
 },[])
 
+console.log(order)
 
   return (
     <div style={{ padding: "20px", marginTop: "70px" }}>
@@ -42,6 +43,7 @@ const [order, setOrder] = useState([])
       <Table>
         <TableHead>
           <TableRow>
+          <TableCell>Order Id</TableCell>
           <TableCell>Order Date</TableCell>
           <TableCell>Product</TableCell>
           <TableCell>Status</TableCell>
@@ -53,6 +55,7 @@ const [order, setOrder] = useState([])
 
         {order.map((item)=>(
           <TableRow>
+          <TableCell>{item.order_id}</TableCell>
             <TableCell>{item.order_date.split("T")[0]}</TableCell>
             <TableCell>
             <Table>

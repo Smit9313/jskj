@@ -54,8 +54,8 @@ function Cart() {
 
   const handleUpdateQuantity = (id,quantity) => {
     dispatch(updateCartt({ProductId:id,quantity}))
-    setMessage('Quantity updated')
-    setOpenToaster(true)
+      // setMessage('Quantity updated')
+      // setOpenToaster(true)
   };
   
   const removeCart = () =>{
@@ -90,11 +90,11 @@ function Cart() {
     orderPlace(data).then((res)=>{
       setMessage('Order Successful placed')
       setOpenToaster(true)
+      dispatch(removeAllCartt())
     }).catch((err)=>console.log(err))
-    //cart empty
     setTimeout(()=>{
       navigate('/order')
-    },3000)
+    },1000)
   }
 
   return (

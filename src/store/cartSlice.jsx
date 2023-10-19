@@ -44,9 +44,6 @@ export function addCartt(data){
   let totalQty;
   let cartData;
   return async function (dispatch,getState){
-    // console.log(data,"data")
-    // console.log(getState().cart,"only state")
-    // console.log(getState().cart.product,"abcs only products")
     const result = getState().cart.cart.find((item)=>item.product_id === data.product.id)
     totalQty = getState().cart.totalquantity + data.quantity
     if(result){
@@ -72,9 +69,8 @@ export function addCartt(data){
         ProductId: data.product.id,
         quantity:data.quantity
     }
-    // console.log(product)
+
     addCart(product).then((res)=>{
-        // console.log(res)
         if(res.status){
             dispatch(setCart(cartData))
             dispatch(setQuantity(totalQty))

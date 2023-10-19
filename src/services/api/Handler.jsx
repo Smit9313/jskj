@@ -21,7 +21,6 @@ export function getUser(data) {
   }
 
 export function getProduct(data){
-    // return axiosClient.get('/products',data)
     return axiosClient.get(`/products?page=${data.page+1}&productsPerPage=${data.rowsPerPage}&search=${data.search}`, data);
 }
 
