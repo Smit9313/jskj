@@ -129,6 +129,7 @@ function Cart() {
                       <img
                         src={product.image}
                         alt=""
+                        onClick={()=> navigate(`/products/${product.product_id}`)}
                         style={{
                           width: "50px",
                           height: "50px",

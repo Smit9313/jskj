@@ -1,5 +1,6 @@
 import axios from "axios"
 
+//created instance
 const axiosClient = axios.create({
   baseURL: 'http://localhost:3000/api'
 });

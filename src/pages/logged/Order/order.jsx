@@ -25,7 +25,10 @@ const [order, setOrder] = useState([])
    getOrder().then((res)=>{
     console.log(res)
     if(res.status){
-       setOrder(res.data.OrderDetails)
+      const sortedOrders = res.data.OrderDetails.sort(
+        (a, b) => b.order_id - a.order_id
+      );
+       setOrder(sortedOrders)
     }
   }).catch((err)=>
   console.log(err))
@@ -73,6 +76,7 @@ console.log(order)
             <TableCell><img
                         src={single.image}
                         alt=""
+                        onClick={()=> navigate(`/products/${single.id}`)}
                         style={{
                           width: "50px",
                           height: "50px",

@@ -88,7 +88,6 @@ export function removeCartt(data){
     let cartData;
 
     return async function (dispatch, getState){
-        console.log(data.ProductId)
         const result = getState().cart.cart.find((item)=>item.product_id === data.ProductId)
         if(result){
             console.log(result)
@@ -97,10 +96,8 @@ export function removeCartt(data){
             totalPrice = getState().cart.totalprice - result.price_per_unit * result.quantity;
             cartData = getState().cart.cart.filter((item)=>item.product_id !== data.ProductId)
         }
-      
-        console.log(data)
+
         removeCart(data).then((res)=>{
-            console.log(res)
             if(res.status){
                 dispatch(setCart(cartData))
                 dispatch(setQuantity(totalQty))
@@ -118,11 +115,10 @@ export function updateCartt(data){
     let cartData;
 
     return async function (dispatch,getState){
-        console.log(data,"data")
         const result = getState().cart.cart.find(
             (item)=>item.product_id === data.ProductId
         )
-
+        
         if(result){
             if(data.quantity > 0){
                 if(result.quantity > data.quantity){
@@ -156,8 +152,7 @@ export function updateCartt(data){
 
 export function removeAllCartt(){
     return async function (dispatch,getState){
-        removeAllCart({}).then((res)=>{
-            console.log(res)
+        removeAllCart({}).then((res)=>{ 
             if(res.status){
                 dispatch(setCart([]))
                 dispatch(setQuantity(0))
